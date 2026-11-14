@@ -1,7 +1,11 @@
 # AVALON: CUỘC CHIẾN BÀN TRÒN (9-PLAYER "NO-SLEEP" PARTY EDITION)
 
+[![Vercel Deployment](https://img.shields.io/badge/Vercel-Live%20Production-success?style=for-the-badge&logo=vercel)](https://avalon-party-game.vercel.app)
+[![GitHub License](https://img.shields.io/badge/License-MIT-blue.svg?style=for-the-badge)](LICENSE)
+
 > **Web Game Ẩn Vai Suy Luận Đỉnh Cao Dành Cho 9 Người Chơi Trên Điện Thoại Di Động**  
-> Bản tiếng Việt hoàn chỉnh • Đồng bộ thời gian thực P2P WebRTC không cần cấu hình backend • Đóng gói 1 file HTML duy nhất nhúng được vào Google Sites / Vercel / GitHub Pages.
+> Bản tiếng Việt hoàn chỉnh • Đồng bộ thời gian thực P2P WebRTC không cần cấu hình backend • Đóng gói 1 file HTML duy nhất nhúng được vào Google Sites / Vercel / GitHub Pages.  
+> **Chơi ngay tại:** [https://avalon-party-game.vercel.app](https://avalon-party-game.vercel.app)
 
 ---
 
