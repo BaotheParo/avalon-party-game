@@ -545,12 +545,23 @@ function getSecretIntelForPlayer(player, allPlayers) {
 // ==========================================
 // 5. MAIN APPLICATION COMPONENT
 // ==========================================
+const ICE_SERVERS = [
+  { urls: 'stun:stun.l.google.com:19302' },
+  { urls: 'stun:stun1.l.google.com:19302' },
+  { urls: 'stun:stun2.l.google.com:19302' },
+  { urls: 'stun:stun3.l.google.com:19302' },
+  { urls: 'stun:stun4.l.google.com:19302' },
+  { urls: 'stun:stun.cloudflare.com:3478' },
+  { urls: 'stun:global.stun.twilio.com:3478' }
+];
+
 export default function App() {
   // Auth & Firebase state
   const [user, setUser] = useState(null);
   const [mode, setMode] = useState('LOCAL'); // 'LOCAL' (Chơi ngay 1 máy / Quản trò) or 'ONLINE' (Nhiều điện thoại)
   const [roomCode, setRoomCode] = useState('');
   const [joinInput, setJoinInput] = useState('');
+  const [invitedRoomCode, setInvitedRoomCode] = useState<string | null>(null);
   const [myOnlineName, setMyOnlineName] = useState('');
   const [onlineError, setOnlineError] = useState('');
   const [soundEnabled, setSoundEnabled] = useState(true);
@@ -644,6 +655,7 @@ export default function App() {
     const roomFromUrl = urlParams.get('room');
     if (roomFromUrl && roomFromUrl.length === 4) {
       setJoinInput(roomFromUrl);
+      setInvitedRoomCode(roomFromUrl);
       setMode('ONLINE');
     }
     try {
@@ -817,11 +829,9 @@ export default function App() {
     try {
       const peer = new Peer(hostPeerId, {
         debug: 1,
+        pingInterval: 5000,
         config: {
-          iceServers: [
-            { urls: 'stun:stun.l.google.com:19302' },
-            { urls: 'stun:global.stun.twilio.com:3478' }
-          ]
+          iceServers: ICE_SERVERS
         }
       });
       peerInstanceRef.current = peer;
@@ -929,21 +939,25 @@ export default function App() {
         });
       });
 
-      peer.on('error', (err) => {
+      peer.on('error', (err: any) => {
         console.error('PeerJS Host Error:', err);
-        setOnlineError('Lỗi kết nối P2P. Bạn có thể sử dụng Chế Độ 1 Máy (Pass & Play)!');
+        if (err.type === 'unavailable-id') {
+          handleCreateOnlineRoom();
+          return;
+        }
+        setOnlineError(`Lỗi Host P2P (${err.type || 'Lỗi'}): ${err.message || 'Vui lòng bấm tạo lại phòng!'}`);
         setPeerStatus('ERROR');
       });
 
-    } catch (e) {
+    } catch (e: any) {
       console.error(e);
       setOnlineError('Không thể khởi tạo P2P. Bạn có thể sử dụng Chế Độ 1 Máy!');
       setPeerStatus('ERROR');
     }
   };
 
-  const handleJoinOnlineRoom = async () => {
-    const cleanCode = joinInput.trim();
+  const handleJoinOnlineRoom = async (overrideCode?: string) => {
+    const cleanCode = (overrideCode || joinInput).trim();
     const playerName = myOnlineName.trim() || `Hiệp Sĩ ${Math.floor(Math.random() * 90 + 10)}`;
     if (cleanCode.length !== 4) {
       setOnlineError('Mã phòng gồm 4 chữ số!');
@@ -958,14 +972,18 @@ export default function App() {
       try { peerInstanceRef.current.destroy(); } catch (e) { }
     }
 
+    // Set connection timeout (12s)
+    const timeoutId = setTimeout(() => {
+      setOnlineError(`Quá thời gian kết nối (12s). Không tìm thấy phòng ${cleanCode}. Hãy chắc chắn màn hình máy tính của Chủ Phòng vẫn đang mở phòng ${cleanCode} và kết nối internet!`);
+      setPeerStatus('ERROR');
+    }, 12000);
+
     try {
       const peer = new Peer({
         debug: 1,
+        pingInterval: 5000,
         config: {
-          iceServers: [
-            { urls: 'stun:stun.l.google.com:19302' },
-            { urls: 'stun:global.stun.twilio.com:3478' }
-          ]
+          iceServers: ICE_SERVERS
         }
       });
       peerInstanceRef.current = peer;
@@ -976,6 +994,7 @@ export default function App() {
         clientConnectionRef.current = conn;
 
         conn.on('open', () => {
+          clearTimeout(timeoutId);
           setRoomCode(cleanCode);
           setIsHost(false);
           setMode('ONLINE');
@@ -1014,25 +1033,32 @@ export default function App() {
 
         conn.on('close', () => {
           setPeerStatus('IDLE');
-          setOnlineError('Đã mất kết nối tới Chủ Phòng. Đang thử kết nối lại...');
+          setOnlineError('Đã mất kết nối tới Chủ Phòng. Vui lòng thử vào lại phòng!');
         });
 
         conn.on('error', (err) => {
+          clearTimeout(timeoutId);
           console.error('Connection error:', err);
-          setOnlineError('Không thể kết nối tới phòng ' + cleanCode + '. Vui lòng kiểm tra mã phòng!');
+          setOnlineError('Lỗi kết nối tới phòng ' + cleanCode + '. Vui lòng kiểm tra mã phòng!');
           setPeerStatus('ERROR');
         });
       });
 
-      peer.on('error', (err) => {
+      peer.on('error', (err: any) => {
+        clearTimeout(timeoutId);
         console.error('PeerJS Client Error:', err);
-        setOnlineError('Không tìm thấy phòng ' + cleanCode + '. Hãy chắc chắn Chủ Phòng đã bấm "Tạo Phòng"!');
+        if (err.type === 'peer-unavailable') {
+          setOnlineError(`Không tìm thấy phòng ${cleanCode}! Hãy chắc chắn màn hình Chủ Phòng (PC) vẫn đang mở phòng ${cleanCode}.`);
+        } else {
+          setOnlineError(`Lỗi kết nối (${err.type || 'P2P'}): ${err.message || 'Không thể kết nối!'}`);
+        }
         setPeerStatus('ERROR');
       });
 
-    } catch (e) {
+    } catch (e: any) {
+      clearTimeout(timeoutId);
       console.error(e);
-      setOnlineError('Lỗi kết nối WebRTC. Vui lòng kiểm tra mạng!');
+      setOnlineError('Lỗi kết nối WebRTC: ' + (e?.message || 'Vui lòng kiểm tra mạng!'));
       setPeerStatus('ERROR');
     }
   };
@@ -2932,8 +2958,47 @@ export default function App() {
                   </button>
                 </div>
 
+                {/* Invited Room Banner (Quick Join via QR Code or Invite Link) */}
+                {invitedRoomCode && !roomCode && (
+                  <div className="p-4 sm:p-5 rounded-2xl bg-gradient-to-r from-amber-950/80 via-indigo-950 to-slate-900 border-2 border-amber-400/80 shadow-2xl mb-4 text-center">
+                    <span className="text-[11px] font-extrabold text-amber-300 uppercase tracking-widest block mb-1">
+                      ⚔️ BẠN ĐƯỢC MỜI THAM GIA BÀN CHƠI
+                    </span>
+                    <div className="text-2xl sm:text-3xl font-black text-amber-400 font-mono tracking-widest mb-3">
+                      PHÒNG: {invitedRoomCode}
+                    </div>
+                    <input
+                      type="text"
+                      placeholder="Nhập tên hiển thị của bạn..."
+                      value={myOnlineName}
+                      onChange={(e) => setMyOnlineName(e.target.value)}
+                      className="w-full px-3.5 py-2.5 rounded-xl bg-slate-950 border border-slate-700 text-xs sm:text-sm text-white mb-3 text-center font-bold focus:outline-none focus:border-amber-400"
+                    />
+                    <button
+                      onClick={() => handleJoinOnlineRoom(invitedRoomCode)}
+                      disabled={peerStatus === 'CONNECTING'}
+                      className="w-full py-3.5 px-4 rounded-xl bg-gradient-to-r from-emerald-500 via-emerald-600 to-teal-600 hover:from-emerald-400 hover:to-teal-500 disabled:opacity-60 text-white font-black text-sm uppercase tracking-wider shadow-lg shadow-emerald-600/30 transition flex items-center justify-center gap-2"
+                    >
+                      {peerStatus === 'CONNECTING' ? (
+                        <>
+                          <span className="w-4 h-4 border-2 border-white border-t-transparent rounded-full animate-spin" />
+                          <span>Đang kết nối tới Chủ Phòng {invitedRoomCode}...</span>
+                        </>
+                      ) : (
+                        <>
+                          <Users className="w-5 h-5" />
+                          <span>VÀO CHƠI NGAY PHÒNG {invitedRoomCode}</span>
+                        </>
+                      )}
+                    </button>
+                    {onlineError && (
+                      <p className="text-xs text-rose-400 mt-2.5 font-bold">{onlineError}</p>
+                    )}
+                  </div>
+                )}
+
                 {/* Online Room Setup Box */}
-                {mode === 'ONLINE' && !roomCode && (
+                {mode === 'ONLINE' && !roomCode && !invitedRoomCode && (
                   <div className="p-4 rounded-xl bg-indigo-950/40 border border-indigo-500/40 mb-4">
                     <h3 className="text-sm font-bold text-indigo-200 mb-2">
                       Kết nối nhiều điện thoại qua Mã Phòng
@@ -2948,9 +3013,17 @@ export default function App() {
                     <div className="flex flex-col sm:flex-row gap-2">
                       <button
                         onClick={handleCreateOnlineRoom}
-                        className="flex-1 py-2.5 px-4 rounded-lg bg-indigo-600 hover:bg-indigo-500 text-white font-bold text-xs transition"
+                        disabled={peerStatus === 'CONNECTING'}
+                        className="flex-1 py-2.5 px-4 rounded-lg bg-indigo-600 hover:bg-indigo-500 disabled:opacity-60 text-white font-bold text-xs transition flex items-center justify-center gap-1.5"
                       >
-                        + Tạo Phòng Mới (Host)
+                        {peerStatus === 'CONNECTING' && isHost ? (
+                          <>
+                            <span className="w-3.5 h-3.5 border-2 border-white border-t-transparent rounded-full animate-spin" />
+                            <span>Đang tạo phòng...</span>
+                          </>
+                        ) : (
+                          <span>+ Tạo Phòng Mới (Host)</span>
+                        )}
                       </button>
                       <div className="flex gap-1.5 flex-1">
                         <input
@@ -2962,10 +3035,18 @@ export default function App() {
                           className="w-24 px-3 py-2 rounded-lg bg-slate-950 border border-slate-700 text-xs text-center font-bold tracking-widest text-amber-300"
                         />
                         <button
-                          onClick={handleJoinOnlineRoom}
-                          className="flex-1 py-2.5 px-3 rounded-lg bg-emerald-600 hover:bg-emerald-500 text-white font-bold text-xs transition"
+                          onClick={() => handleJoinOnlineRoom()}
+                          disabled={peerStatus === 'CONNECTING'}
+                          className="flex-1 py-2.5 px-3 rounded-lg bg-emerald-600 hover:bg-emerald-500 disabled:opacity-60 text-white font-bold text-xs transition flex items-center justify-center gap-1.5"
                         >
-                          Vào Phòng
+                          {peerStatus === 'CONNECTING' && !isHost ? (
+                            <>
+                              <span className="w-3.5 h-3.5 border-2 border-white border-t-transparent rounded-full animate-spin" />
+                              <span>Đang vào...</span>
+                            </>
+                          ) : (
+                            <span>Vào Phòng</span>
+                          )}
                         </button>
                       </div>
                     </div>
