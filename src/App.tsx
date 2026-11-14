@@ -33,7 +33,8 @@ import {
   CheckCircle2, XCircle, HelpCircle, ScrollText, Play, RotateCcw, 
   Copy, Check, Volume2, VolumeX, Smartphone, UserPlus, Shuffle, 
   Award, Flame, Lock, Unlock, Terminal, ChevronRight, AlertTriangle,
-  Palette, Wand2, Globe, Waves, Target, Crosshair
+  Palette, Wand2, Globe, Waves, Target, Crosshair,
+  Share2, QrCode
 } from 'lucide-react';
 
 // ==========================================
