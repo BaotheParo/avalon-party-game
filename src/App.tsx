@@ -1837,8 +1837,8 @@ export default function App() {
                     <div
                       key={step}
                       className={`w-5 h-5 rounded-full flex items-center justify-center text-[10px] font-bold transition-all ${gameState.rejectCount >= step
-                          ? 'bg-red-600 text-white shadow-md shadow-red-600/50 scale-110'
-                          : 'bg-slate-800 text-slate-500 border border-slate-700'
+                        ? 'bg-red-600 text-white shadow-md shadow-red-600/50 scale-110'
+                        : 'bg-slate-800 text-slate-500 border border-slate-700'
                         }`}
                     >
                       {step}
@@ -1946,8 +1946,8 @@ export default function App() {
                             setHoldingSecret(false);
                           }}
                           className={`px-2 py-1.5 rounded-lg text-xs font-semibold truncate flex items-center justify-center gap-1 border transition ${isSelected
-                              ? 'bg-amber-500 text-slate-950 border-amber-300 font-bold shadow-md'
-                              : 'bg-slate-950/70 text-slate-300 border-slate-800 hover:border-slate-600'
+                            ? 'bg-amber-500 text-slate-950 border-amber-300 font-bold shadow-md'
+                            : 'bg-slate-950/70 text-slate-300 border-slate-800 hover:border-slate-600'
                             }`}
                         >
                           {isLeader && <Crown className="w-3 h-3 shrink-0 text-amber-400" />}
@@ -2024,8 +2024,8 @@ export default function App() {
                               </h3>
                               <span
                                 className={`inline-block text-[10px] font-extrabold px-2 py-0.5 rounded-full mt-0.5 ${currentRoleInfo?.team === 'GOOD'
-                                    ? 'bg-blue-500/30 text-blue-200 border border-blue-300/40'
-                                    : 'bg-red-500/30 text-red-200 border border-red-300/40'
+                                  ? 'bg-blue-500/30 text-blue-200 border border-blue-300/40'
+                                  : 'bg-red-500/30 text-red-200 border border-red-300/40'
                                   }`}
                               >
                                 {currentRoleInfo?.team === 'GOOD' ? '🛡️ PHE THIỆN' : '🔥 PHE ÁC'}
@@ -2068,8 +2068,8 @@ export default function App() {
                   onTouchStart={(e) => { e.preventDefault(); sfx.revealRole(); setHoldingSecret(true); }}
                   onTouchEnd={() => setHoldingSecret(false)}
                   className={`mt-2 w-full py-3 rounded-xl font-extrabold text-xs sm:text-sm uppercase tracking-wider flex items-center justify-center gap-2 select-none transition-all ${holdingSecret
-                      ? 'bg-amber-400 text-slate-950 shadow-lg shadow-amber-500/30 scale-[0.99]'
-                      : 'bg-gradient-to-r from-amber-600 to-yellow-600 hover:from-amber-500 hover:to-yellow-500 text-slate-950 shadow-md'
+                    ? 'bg-amber-400 text-slate-950 shadow-lg shadow-amber-500/30 scale-[0.99]'
+                    : 'bg-gradient-to-r from-amber-600 to-yellow-600 hover:from-amber-500 hover:to-yellow-500 text-slate-950 shadow-md'
                     }`}
                 >
                   {holdingSecret ? (
@@ -2119,10 +2119,10 @@ export default function App() {
                               }
                             }}
                             className={`p-2.5 rounded-xl border flex items-center justify-between cursor-pointer transition ${p.readyRole
-                                ? 'bg-emerald-950/50 border-emerald-500/40 text-emerald-200'
-                                : p.id === currentPlayer?.id
-                                  ? 'bg-amber-500/20 border-amber-400 text-white'
-                                  : 'bg-slate-950/60 border-slate-800 text-slate-400'
+                              ? 'bg-emerald-950/50 border-emerald-500/40 text-emerald-200'
+                              : p.id === currentPlayer?.id
+                                ? 'bg-amber-500/20 border-amber-400 text-white'
+                                : 'bg-slate-950/60 border-slate-800 text-slate-400'
                               }`}
                           >
                             <span className="text-xs font-bold truncate">{p.name}</span>
@@ -2195,8 +2195,8 @@ export default function App() {
                               key={p.id}
                               onClick={() => handleToggleTeamMember(p.id)}
                               className={`p-2.5 rounded-xl border text-left transition-all flex items-center justify-between gap-2 ${isSelected
-                                  ? 'bg-gradient-to-r from-amber-500/30 to-yellow-600/20 border-amber-400 text-white shadow-md shadow-amber-500/10 scale-[1.02]'
-                                  : 'bg-slate-950/70 border-slate-800 text-slate-300 hover:border-slate-600'
+                                ? 'bg-gradient-to-r from-amber-500/30 to-yellow-600/20 border-amber-400 text-white shadow-md shadow-amber-500/10 scale-[1.02]'
+                                : 'bg-slate-950/70 border-slate-800 text-slate-300 hover:border-slate-600'
                                 }`}
                             >
                               <div className="flex items-center gap-2 min-w-0">
@@ -2216,8 +2216,8 @@ export default function App() {
                               </div>
                               <div
                                 className={`w-5 h-5 rounded-full shrink-0 flex items-center justify-center border ${isSelected
-                                    ? 'bg-amber-400 border-amber-300 text-slate-950'
-                                    : 'border-slate-700 bg-slate-900'
+                                  ? 'bg-amber-400 border-amber-300 text-slate-950'
+                                  : 'border-slate-700 bg-slate-900'
                                   }`}
                               >
                                 {isSelected && <Check className="w-3.5 h-3.5 stroke-[3]" />}
@@ -2232,8 +2232,8 @@ export default function App() {
                       disabled={gameState.selectedTeam.length !== requiredTeamSize}
                       onClick={handleSubmitTeamProposal}
                       className={`w-full py-3.5 rounded-xl font-extrabold text-sm uppercase tracking-wider transition flex items-center justify-center gap-2 ${gameState.selectedTeam.length === requiredTeamSize
-                          ? 'bg-gradient-to-r from-amber-500 to-yellow-500 hover:from-amber-400 hover:to-yellow-400 text-slate-950 shadow-lg shadow-amber-500/25 cursor-pointer'
-                          : 'bg-slate-800 text-slate-500 border border-slate-700 cursor-not-allowed'
+                        ? 'bg-gradient-to-r from-amber-500 to-yellow-500 hover:from-amber-400 hover:to-yellow-400 text-slate-950 shadow-lg shadow-amber-500/25 cursor-pointer'
+                        : 'bg-slate-800 text-slate-500 border border-slate-700 cursor-not-allowed'
                         }`}
                     >
                       <Sword className="w-4 h-4" />
@@ -2287,8 +2287,8 @@ export default function App() {
                           <button
                             onClick={() => handleCastTeamVote(currentPlayer.id, 'APPROVE')}
                             className={`py-3 px-4 rounded-xl font-extrabold text-xs sm:text-sm flex items-center justify-center gap-2 border transition ${gameState.teamVotes[currentPlayer?.id] === 'APPROVE'
-                                ? 'bg-emerald-600 text-white border-emerald-300 shadow-lg'
-                                : 'bg-emerald-950/60 hover:bg-emerald-900/70 text-emerald-300 border-emerald-500/40'
+                              ? 'bg-emerald-600 text-white border-emerald-300 shadow-lg'
+                              : 'bg-emerald-950/60 hover:bg-emerald-900/70 text-emerald-300 border-emerald-500/40'
                               }`}
                           >
                             <CheckCircle2 className="w-4 h-4" />
@@ -2298,8 +2298,8 @@ export default function App() {
                           <button
                             onClick={() => handleCastTeamVote(currentPlayer.id, 'REJECT')}
                             className={`py-3 px-4 rounded-xl font-extrabold text-xs sm:text-sm flex items-center justify-center gap-2 border transition ${gameState.teamVotes[currentPlayer?.id] === 'REJECT'
-                                ? 'bg-rose-600 text-white border-rose-300 shadow-lg'
-                                : 'bg-rose-950/60 hover:bg-rose-900/70 text-rose-300 border-rose-500/40'
+                              ? 'bg-rose-600 text-white border-rose-300 shadow-lg'
+                              : 'bg-rose-950/60 hover:bg-rose-900/70 text-rose-300 border-rose-500/40'
                               }`}
                           >
                             <XCircle className="w-4 h-4" />
@@ -2317,8 +2317,8 @@ export default function App() {
                               key={p.id}
                               onClick={() => mode === 'LOCAL' && setActiveViewerId(p.id)}
                               className={`px-2.5 py-1.5 rounded-lg border text-xs flex items-center justify-between cursor-pointer ${hasVoted
-                                  ? 'bg-amber-500/15 border-amber-400/40 text-amber-200'
-                                  : 'bg-slate-950 border-slate-800 text-slate-500'
+                                ? 'bg-amber-500/15 border-amber-400/40 text-amber-200'
+                                : 'bg-slate-950 border-slate-800 text-slate-500'
                                 }`}
                             >
                               <span className="truncate">{p.name}</span>
@@ -2361,8 +2361,8 @@ export default function App() {
                       <div>
                         <div
                           className={`p-4 rounded-xl border text-center mb-4 ${passed
-                              ? 'bg-emerald-950/60 border-emerald-400 text-emerald-200'
-                              : 'bg-rose-950/60 border-rose-500 text-rose-200'
+                            ? 'bg-emerald-950/60 border-emerald-400 text-emerald-200'
+                            : 'bg-rose-950/60 border-rose-500 text-rose-200'
                             }`}
                         >
                           <h3 className="text-lg font-black uppercase">
@@ -2383,8 +2383,8 @@ export default function App() {
                               <div
                                 key={p.id}
                                 className={`p-2.5 rounded-xl border flex items-center justify-between text-xs font-bold ${v === 'APPROVE'
-                                    ? 'bg-emerald-950/40 border-emerald-500/40 text-emerald-300'
-                                    : 'bg-rose-950/40 border-rose-500/40 text-rose-300'
+                                  ? 'bg-emerald-950/40 border-emerald-500/40 text-emerald-300'
+                                  : 'bg-rose-950/40 border-rose-500/40 text-rose-300'
                                   }`}
                               >
                                 <span className="truncate">{p.name}</span>
@@ -2442,10 +2442,10 @@ export default function App() {
                                   }
                                 }}
                                 className={`px-3 py-1.5 rounded-xl text-xs font-bold border flex items-center gap-1.5 transition ${done
-                                    ? 'bg-emerald-950/60 border-emerald-500/40 text-emerald-300'
-                                    : id === currentPlayer?.id
-                                      ? 'bg-amber-500 text-slate-950 border-amber-300 shadow-md'
-                                      : 'bg-slate-950 border-slate-700 text-slate-300'
+                                  ? 'bg-emerald-950/60 border-emerald-500/40 text-emerald-300'
+                                  : id === currentPlayer?.id
+                                    ? 'bg-amber-500 text-slate-950 border-amber-300 shadow-md'
+                                    : 'bg-slate-950 border-slate-700 text-slate-300'
                                   }`}
                               >
                                 <span>{member?.name}</span>
@@ -2530,8 +2530,8 @@ export default function App() {
                                         }
                                       }}
                                       className={`p-4 rounded-xl border-2 flex flex-col items-center justify-center gap-1.5 shadow-lg transition ${isGoodPlayer
-                                          ? 'bg-gradient-to-b from-slate-800 to-slate-900 border-slate-600 text-slate-300'
-                                          : 'bg-gradient-to-b from-red-700 to-rose-950 hover:from-red-600 hover:to-rose-900 border-red-400 text-white'
+                                        ? 'bg-gradient-to-b from-slate-800 to-slate-900 border-slate-600 text-slate-300'
+                                        : 'bg-gradient-to-b from-red-700 to-rose-950 hover:from-red-600 hover:to-rose-900 border-red-400 text-white'
                                         }`}
                                     >
                                       <Flame className="w-7 h-7 text-red-400" />
@@ -2601,8 +2601,8 @@ export default function App() {
                                   {/* Flipped Result */}
                                   <div
                                     className={`absolute inset-0 backface-hidden rotate-y-180 rounded-xl border-2 flex flex-col items-center justify-center p-2 shadow-xl ${card === 'SUCCESS'
-                                        ? 'bg-gradient-to-b from-blue-600 to-blue-950 border-blue-300 text-white'
-                                        : 'bg-gradient-to-b from-red-600 to-rose-950 border-red-300 text-white'
+                                      ? 'bg-gradient-to-b from-blue-600 to-blue-950 border-blue-300 text-white'
+                                      : 'bg-gradient-to-b from-red-600 to-rose-950 border-red-300 text-white'
                                       }`}
                                   >
                                     {card === 'SUCCESS' ? (
@@ -2673,8 +2673,8 @@ export default function App() {
                                 disabled={hasHeldBefore}
                                 onClick={() => handleSelectLadyTarget(p.id)}
                                 className={`p-2.5 rounded-xl border text-left transition flex items-center gap-2 ${hasHeldBefore
-                                    ? 'bg-slate-950/40 border-slate-800/60 opacity-45 cursor-not-allowed'
-                                    : 'bg-slate-950/90 hover:bg-cyan-950/60 border-slate-700 hover:border-cyan-400 cursor-pointer'
+                                  ? 'bg-slate-950/40 border-slate-800/60 opacity-45 cursor-not-allowed'
+                                  : 'bg-slate-950/90 hover:bg-cyan-950/60 border-slate-700 hover:border-cyan-400 cursor-pointer'
                                   }`}
                               >
                                 <PixelCharacterAvatar skinId={p.skinId} frameId={p.frameId} size="sm" />
@@ -2728,8 +2728,8 @@ export default function App() {
                         ) : (
                           <div
                             className={`p-6 rounded-2xl border-2 max-w-md mx-auto mt-2 shadow-2xl ${targetTeam === 'GOOD'
-                                ? 'bg-gradient-to-b from-blue-700 to-indigo-950 border-cyan-300'
-                                : 'bg-gradient-to-b from-red-700 to-rose-950 border-red-400'
+                              ? 'bg-gradient-to-b from-blue-700 to-indigo-950 border-cyan-300'
+                              : 'bg-gradient-to-b from-red-700 to-rose-950 border-red-400'
                               }`}
                           >
                             <PixelCharacterAvatar skinId={targetPlayer?.skinId} frameId={targetPlayer?.frameId} size="lg" />
@@ -2815,8 +2815,8 @@ export default function App() {
                     <div>
                       <div
                         className={`p-4 rounded-2xl border-2 text-center mb-4 ${gameState.winner === 'GOOD'
-                            ? 'bg-gradient-to-b from-blue-900/60 to-slate-950 border-blue-400 shadow-lg shadow-blue-500/20'
-                            : 'bg-gradient-to-b from-red-900/60 to-slate-950 border-red-500 shadow-lg shadow-red-500/20'
+                          ? 'bg-gradient-to-b from-blue-900/60 to-slate-950 border-blue-400 shadow-lg shadow-blue-500/20'
+                          : 'bg-gradient-to-b from-red-900/60 to-slate-950 border-red-500 shadow-lg shadow-red-500/20'
                           }`}
                       >
                         <div className="text-3xl mb-1">
@@ -2843,8 +2843,8 @@ export default function App() {
                             <div
                               key={p.id}
                               className={`p-2.5 rounded-xl border flex items-center justify-between ${rInfo?.team === 'GOOD'
-                                  ? 'bg-blue-950/40 border-blue-500/30'
-                                  : 'bg-red-950/40 border-red-500/30'
+                                ? 'bg-blue-950/40 border-blue-500/30'
+                                : 'bg-red-950/40 border-red-500/30'
                                 }`}
                             >
                               <div className="flex items-center gap-2">
@@ -2865,8 +2865,8 @@ export default function App() {
                               </div>
                               <span
                                 className={`text-[10px] font-bold px-2 py-0.5 rounded-full ${rInfo?.team === 'GOOD'
-                                    ? 'bg-blue-500/20 text-blue-300'
-                                    : 'bg-red-500/20 text-red-300'
+                                  ? 'bg-blue-500/20 text-blue-300'
+                                  : 'bg-red-500/20 text-red-300'
                                   }`}
                               >
                                 {rInfo?.team === 'GOOD' ? 'Thiện' : 'Ác'}
@@ -2913,8 +2913,8 @@ export default function App() {
                   <button
                     onClick={() => { sfx.click(); setMode('LOCAL'); }}
                     className={`py-2.5 px-3 rounded-lg text-xs font-extrabold transition flex items-center justify-center gap-1.5 ${mode === 'LOCAL'
-                        ? 'bg-gradient-to-r from-amber-500 to-yellow-500 text-slate-950 shadow-md'
-                        : 'text-slate-400 hover:text-white'
+                      ? 'bg-gradient-to-r from-amber-500 to-yellow-500 text-slate-950 shadow-md'
+                      : 'text-slate-400 hover:text-white'
                       }`}
                   >
                     <Smartphone className="w-4 h-4" />
@@ -2923,8 +2923,8 @@ export default function App() {
                   <button
                     onClick={() => { sfx.click(); setMode('ONLINE'); }}
                     className={`py-2.5 px-3 rounded-lg text-xs font-extrabold transition flex items-center justify-center gap-1.5 ${mode === 'ONLINE'
-                        ? 'bg-gradient-to-r from-indigo-500 to-blue-600 text-white shadow-md'
-                        : 'text-slate-400 hover:text-white'
+                      ? 'bg-gradient-to-r from-indigo-500 to-blue-600 text-white shadow-md'
+                      : 'text-slate-400 hover:text-white'
                       }`}
                   >
                     <Users className="w-4 h-4" />
@@ -3163,10 +3163,10 @@ export default function App() {
                         key={key}
                         onClick={() => handleToggleSpecialRole(key)}
                         className={`p-2.5 rounded-xl border flex items-center justify-between cursor-pointer transition ${active
-                            ? role.team === 'GOOD'
-                              ? 'bg-blue-950/50 border-blue-400/50 text-white'
-                              : 'bg-red-950/50 border-red-400/50 text-white'
-                            : 'bg-slate-950/50 border-slate-800 text-slate-500'
+                          ? role.team === 'GOOD'
+                            ? 'bg-blue-950/50 border-blue-400/50 text-white'
+                            : 'bg-red-950/50 border-red-400/50 text-white'
+                          : 'bg-slate-950/50 border-slate-800 text-slate-500'
                           }`}
                       >
                         <div className="flex items-center gap-2.5 pr-2">
@@ -3176,8 +3176,8 @@ export default function App() {
                               <span className="text-xs font-bold">{role.name}</span>
                               <span
                                 className={`text-[9px] font-bold px-1.5 py-0.5 rounded ${role.team === 'GOOD'
-                                    ? 'bg-blue-500/20 text-blue-300'
-                                    : 'bg-red-500/20 text-red-300'
+                                  ? 'bg-blue-500/20 text-blue-300'
+                                  : 'bg-red-500/20 text-red-300'
                                   }`}
                               >
                                 {role.team === 'GOOD' ? 'Thiện' : 'Ác'}
@@ -3191,8 +3191,8 @@ export default function App() {
 
                         <div
                           className={`w-5 h-5 rounded-md flex items-center justify-center border shrink-0 ${active
-                              ? 'bg-amber-400 border-amber-300 text-slate-950'
-                              : 'border-slate-700 bg-slate-900'
+                            ? 'bg-amber-400 border-amber-300 text-slate-950'
+                            : 'border-slate-700 bg-slate-900'
                             }`}
                         >
                           {active && <Check className="w-3.5 h-3.5 stroke-[3]" />}
@@ -3212,8 +3212,8 @@ export default function App() {
                     <div
                       onClick={() => handleToggleSpecialRole('ladyOfLake')}
                       className={`p-2.5 rounded-xl border flex items-center justify-between cursor-pointer transition ${gameState.specialConfig.ladyOfLake
-                          ? 'bg-cyan-950/50 border-cyan-400/50 text-white'
-                          : 'bg-slate-950/50 border-slate-800 text-slate-500'
+                        ? 'bg-cyan-950/50 border-cyan-400/50 text-white'
+                        : 'bg-slate-950/50 border-slate-800 text-slate-500'
                         }`}
                     >
                       <div className="pr-2">
@@ -3226,8 +3226,8 @@ export default function App() {
                       </div>
                       <div
                         className={`w-5 h-5 rounded-md flex items-center justify-center border shrink-0 ${gameState.specialConfig.ladyOfLake
-                            ? 'bg-cyan-400 border-cyan-300 text-slate-950'
-                            : 'border-slate-700 bg-slate-900'
+                          ? 'bg-cyan-400 border-cyan-300 text-slate-950'
+                          : 'border-slate-700 bg-slate-900'
                           }`}
                       >
                         {gameState.specialConfig.ladyOfLake && <Check className="w-3.5 h-3.5 stroke-[3]" />}
@@ -3237,8 +3237,8 @@ export default function App() {
                     <div
                       onClick={() => handleToggleSpecialRole('targeting')}
                       className={`p-2.5 rounded-xl border flex items-center justify-between cursor-pointer transition ${gameState.specialConfig.targeting
-                          ? 'bg-amber-950/40 border-amber-400/50 text-white'
-                          : 'bg-slate-950/50 border-slate-800 text-slate-500'
+                        ? 'bg-amber-950/40 border-amber-400/50 text-white'
+                        : 'bg-slate-950/50 border-slate-800 text-slate-500'
                         }`}
                     >
                       <div className="pr-2">
@@ -3251,8 +3251,8 @@ export default function App() {
                       </div>
                       <div
                         className={`w-5 h-5 rounded-md flex items-center justify-center border shrink-0 ${gameState.specialConfig.targeting
-                            ? 'bg-amber-400 border-amber-300 text-slate-950'
-                            : 'border-slate-700 bg-slate-900'
+                          ? 'bg-amber-400 border-amber-300 text-slate-950'
+                          : 'border-slate-700 bg-slate-900'
                           }`}
                       >
                         {gameState.specialConfig.targeting && <Check className="w-3.5 h-3.5 stroke-[3]" />}
@@ -3297,8 +3297,8 @@ export default function App() {
                   key={tab.id}
                   onClick={() => setRulesTab(tab.id)}
                   className={`px-3 py-2 rounded-t-lg text-xs font-extrabold whitespace-nowrap transition ${rulesTab === tab.id
-                      ? 'bg-amber-500 text-slate-950'
-                      : 'bg-slate-950 text-slate-400 hover:text-white'
+                    ? 'bg-amber-500 text-slate-950'
+                    : 'bg-slate-950 text-slate-400 hover:text-white'
                     }`}
                 >
                   {tab.label}
@@ -3443,8 +3443,8 @@ export default function App() {
                         key={skin.id}
                         onClick={() => handleUpdatePlayerSkin(targetP.id, { skinId: skin.id })}
                         className={`p-2 rounded-xl border flex flex-col items-center gap-1 transition ${targetP.skinId === skin.id
-                            ? 'bg-amber-500/20 border-amber-400 text-white'
-                            : 'bg-slate-950 border-slate-800 text-slate-400 hover:border-slate-600'
+                          ? 'bg-amber-500/20 border-amber-400 text-white'
+                          : 'bg-slate-950 border-slate-800 text-slate-400 hover:border-slate-600'
                           }`}
                       >
                         <PixelCharacterAvatar skinId={skin.id} frameId={targetP.frameId} size="sm" />
@@ -3465,8 +3465,8 @@ export default function App() {
                         key={frame.id}
                         onClick={() => handleUpdatePlayerSkin(targetP.id, { frameId: frame.id })}
                         className={`p-2 rounded-xl border text-xs font-bold transition ${targetP.frameId === frame.id
-                            ? 'bg-amber-500 text-slate-950 border-amber-300'
-                            : 'bg-slate-950 text-slate-300 border-slate-800'
+                          ? 'bg-amber-500 text-slate-950 border-amber-300'
+                          : 'bg-slate-950 text-slate-300 border-slate-800'
                           }`}
                       >
                         {frame.name}
@@ -3486,8 +3486,8 @@ export default function App() {
                         key={title}
                         onClick={() => handleUpdatePlayerSkin(targetP.id, { titleBadge: title })}
                         className={`px-2.5 py-1.5 rounded-lg text-xs font-bold border transition ${targetP.titleBadge === title
-                            ? 'bg-indigo-600 text-white border-indigo-400'
-                            : 'bg-slate-950 text-slate-400 border-slate-800'
+                          ? 'bg-indigo-600 text-white border-indigo-400'
+                          : 'bg-slate-950 text-slate-400 border-slate-800'
                           }`}
                       >
                         {title}
