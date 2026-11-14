@@ -2,19 +2,19 @@ import React, { useState, useEffect, useRef, useMemo, useCallback } from 'react'
 import Peer, { DataConnection } from 'peerjs';
 import QRCode from 'qrcode';
 import { initializeApp } from 'firebase/app';
-import { 
-  getAuth, 
-  signInAnonymously, 
-  signInWithCustomToken, 
-  onAuthStateChanged 
+import {
+  getAuth,
+  signInAnonymously,
+  signInWithCustomToken,
+  onAuthStateChanged
 } from 'firebase/auth';
-import { 
-  getFirestore, 
-  doc, 
-  setDoc, 
-  getDoc, 
-  updateDoc, 
-  onSnapshot 
+import {
+  getFirestore,
+  doc,
+  setDoc,
+  getDoc,
+  updateDoc,
+  onSnapshot
 } from 'firebase/firestore';
 
 // Global declarations for embedded environments (e.g. Google Sites / single-file embed)
@@ -28,10 +28,10 @@ declare global {
 declare const __firebase_config: string | undefined;
 declare const __app_id: string | undefined;
 declare const __initial_auth_token: string | undefined;
-import { 
-  Shield, Sword, Crown, Eye, EyeOff, Users, Sparkles, Skull, 
-  CheckCircle2, XCircle, HelpCircle, ScrollText, Play, RotateCcw, 
-  Copy, Check, Volume2, VolumeX, Smartphone, UserPlus, Shuffle, 
+import {
+  Shield, Sword, Crown, Eye, EyeOff, Users, Sparkles, Skull,
+  CheckCircle2, XCircle, HelpCircle, ScrollText, Play, RotateCcw,
+  Copy, Check, Volume2, VolumeX, Smartphone, UserPlus, Shuffle,
   Award, Flame, Lock, Unlock, Terminal, ChevronRight, AlertTriangle,
   Palette, Wand2, Globe, Waves, Target, Crosshair,
   Share2, QrCode
@@ -40,8 +40,8 @@ import {
 // ==========================================
 // 1. FIREBASE INITIALIZATION
 // ==========================================
-const firebaseConfig = typeof __firebase_config !== 'undefined' 
-  ? JSON.parse(__firebase_config) 
+const firebaseConfig = typeof __firebase_config !== 'undefined'
+  ? JSON.parse(__firebase_config)
   : {};
 const app = Object.keys(firebaseConfig).length > 0 ? initializeApp(firebaseConfig) : null;
 const auth = app ? getAuth(app) : null;
@@ -320,11 +320,11 @@ function PixelFXOverlay({ effectType, onComplete }) {
 // 3. AVALON RULES & CONSTANTS (5-10 Players)
 // ==========================================
 const PLAYER_MATRIX = {
-  5:  { good: 3, evil: 2, quests: [2, 3, 2, 3, 3], twoFailsOnQuest4: false },
-  6:  { good: 4, evil: 2, quests: [2, 3, 4, 3, 4], twoFailsOnQuest4: false },
-  7:  { good: 4, evil: 3, quests: [2, 3, 3, 4, 4], twoFailsOnQuest4: true },
-  8:  { good: 5, evil: 3, quests: [3, 4, 4, 5, 5], twoFailsOnQuest4: true },
-  9:  { good: 6, evil: 3, quests: [3, 4, 4, 5, 5], twoFailsOnQuest4: true }, // Chuẩn 9 người
+  5: { good: 3, evil: 2, quests: [2, 3, 2, 3, 3], twoFailsOnQuest4: false },
+  6: { good: 4, evil: 2, quests: [2, 3, 4, 3, 4], twoFailsOnQuest4: false },
+  7: { good: 4, evil: 3, quests: [2, 3, 3, 4, 4], twoFailsOnQuest4: true },
+  8: { good: 5, evil: 3, quests: [3, 4, 4, 5, 5], twoFailsOnQuest4: true },
+  9: { good: 6, evil: 3, quests: [3, 4, 4, 5, 5], twoFailsOnQuest4: true }, // Chuẩn 9 người
   10: { good: 6, evil: 4, quests: [3, 4, 4, 5, 5], twoFailsOnQuest4: true },
 };
 
@@ -492,8 +492,8 @@ function getSecretIntelForPlayer(player, allPlayers) {
     return {
       title: '👁️ Tầm Nhìn Của Merlin (Kẻ Ác Lộ Diện):',
       items: visibleEvil.map(p => ({ name: p.name, tag: 'Phe Ác (Lộ diện)', color: 'text-red-400 bg-red-950/70 border-red-500/40' })),
-      note: hasMordred 
-        ? '⚠️ Cảnh báo: Trong ván này có MORDRED đang ẩn mình mà bạn KHÔNG nhìn thấy!' 
+      note: hasMordred
+        ? '⚠️ Cảnh báo: Trong ván này có MORDRED đang ẩn mình mà bạn KHÔNG nhìn thấy!'
         : 'Bạn đã nhìn thấy toàn bộ Phe Ác trong ván này.'
     };
   }
@@ -558,10 +558,10 @@ export default function App() {
   // PeerJS Serverless WebRTC & P2P Star Topology State
   const [myDeviceId] = useState(() => {
     if (typeof window === 'undefined') return 'p_' + Math.random().toString(36).substring(2, 9);
-    let id = localStorage.getItem('avalon_device_id_v1');
+    let id = sessionStorage.getItem('avalon_device_id_v1');
     if (!id) {
       id = 'p_' + Math.random().toString(36).substring(2, 9);
-      try { localStorage.setItem('avalon_device_id_v1', id); } catch (e) {}
+      try { sessionStorage.setItem('avalon_device_id_v1', id); } catch (e) { }
     }
     return id;
   });
@@ -657,7 +657,7 @@ export default function App() {
           setJoinInput(parsed.roomCode);
         }
       }
-    } catch (e) {}
+    } catch (e) { }
   }, []);
 
   // ------------------------------------------
@@ -674,8 +674,8 @@ export default function App() {
           light: '#fbbf24'
         }
       })
-      .then(url => setQrCodeDataUrl(url))
-      .catch(err => console.error('Failed to generate QR code:', err));
+        .then(url => setQrCodeDataUrl(url))
+        .catch(err => console.error('Failed to generate QR code:', err));
     } else {
       setQrCodeDataUrl('');
     }
@@ -740,7 +740,7 @@ export default function App() {
   const syncState = async (updater: any) => {
     setGameState((prev: any) => {
       const nextState = typeof updater === 'function' ? updater(prev) : updater;
-      
+
       // If we are Host in ONLINE mode, broadcast to all connected peer clients
       if (mode === 'ONLINE' && isHost) {
         broadcastState(nextState);
@@ -751,7 +751,7 @@ export default function App() {
         try {
           const roomRef = doc(db, 'artifacts', appId, 'public', 'data', 'avalon_rooms', roomCode);
           setDoc(roomRef, nextState).catch(err => console.error('Firebase sync error:', err));
-        } catch (e) {}
+        } catch (e) { }
       }
 
       return nextState;
@@ -811,7 +811,7 @@ export default function App() {
 
     // Clean up previous peer
     if (peerInstanceRef.current) {
-      try { peerInstanceRef.current.destroy(); } catch (e) {}
+      try { peerInstanceRef.current.destroy(); } catch (e) { }
     }
 
     try {
@@ -860,12 +860,12 @@ export default function App() {
             roomCode: code,
             isHost: true
           }));
-        } catch (e) {}
+        } catch (e) { }
 
         // Firebase fallback if available
         if (user && db) {
           const roomRef = doc(db, 'artifacts', appId, 'public', 'data', 'avalon_rooms', code);
-          setDoc(roomRef, newOnlineState).catch(() => {});
+          setDoc(roomRef, newOnlineState).catch(() => { });
         }
       });
 
@@ -955,7 +955,7 @@ export default function App() {
 
     // Clean up previous client peer
     if (peerInstanceRef.current) {
-      try { peerInstanceRef.current.destroy(); } catch (e) {}
+      try { peerInstanceRef.current.destroy(); } catch (e) { }
     }
 
     try {
@@ -1003,7 +1003,7 @@ export default function App() {
               roomCode: cleanCode,
               isHost: false
             }));
-          } catch (e) {}
+          } catch (e) { }
         });
 
         conn.on('data', (data: any) => {
@@ -1836,11 +1836,10 @@ export default function App() {
                   {[1, 2, 3, 4, 5].map(step => (
                     <div
                       key={step}
-                      className={`w-5 h-5 rounded-full flex items-center justify-center text-[10px] font-bold transition-all ${
-                        gameState.rejectCount >= step
+                      className={`w-5 h-5 rounded-full flex items-center justify-center text-[10px] font-bold transition-all ${gameState.rejectCount >= step
                           ? 'bg-red-600 text-white shadow-md shadow-red-600/50 scale-110'
                           : 'bg-slate-800 text-slate-500 border border-slate-700'
-                      }`}
+                        }`}
                     >
                       {step}
                     </div>
@@ -1872,17 +1871,15 @@ export default function App() {
                         syncState(prev => ({ ...prev, currentQuestIdx: idx, selectedTeam: [] }));
                       }
                     }}
-                    className={`relative rounded-xl p-2 sm:p-3 flex flex-col items-center justify-center border transition-all ${
-                      canTargetThisQuest ? 'cursor-pointer hover:border-amber-400' : ''
-                    } ${
-                      status === 'SUCCESS'
+                    className={`relative rounded-xl p-2 sm:p-3 flex flex-col items-center justify-center border transition-all ${canTargetThisQuest ? 'cursor-pointer hover:border-amber-400' : ''
+                      } ${status === 'SUCCESS'
                         ? 'bg-gradient-to-b from-blue-600/40 to-blue-950/80 border-blue-400 shadow-lg shadow-blue-500/20'
                         : status === 'FAIL'
-                        ? 'bg-gradient-to-b from-red-600/40 to-red-950/80 border-red-500 shadow-lg shadow-red-500/20'
-                        : isCurrent
-                        ? 'bg-gradient-to-b from-amber-500/25 to-slate-900 border-amber-400 ring-2 ring-amber-400/30 animate-pulse'
-                        : 'bg-slate-950/60 border-slate-800 text-slate-400'
-                    }`}
+                          ? 'bg-gradient-to-b from-red-600/40 to-red-950/80 border-red-500 shadow-lg shadow-red-500/20'
+                          : isCurrent
+                            ? 'bg-gradient-to-b from-amber-500/25 to-slate-900 border-amber-400 ring-2 ring-amber-400/30 animate-pulse'
+                            : 'bg-slate-950/60 border-slate-800 text-slate-400'
+                      }`}
                   >
                     <span className="text-[10px] sm:text-xs uppercase font-bold tracking-wider text-slate-300 flex items-center gap-1">
                       <span>NV {idx + 1}</span>
@@ -1948,11 +1945,10 @@ export default function App() {
                             setActiveViewerId(p.id);
                             setHoldingSecret(false);
                           }}
-                          className={`px-2 py-1.5 rounded-lg text-xs font-semibold truncate flex items-center justify-center gap-1 border transition ${
-                            isSelected
+                          className={`px-2 py-1.5 rounded-lg text-xs font-semibold truncate flex items-center justify-center gap-1 border transition ${isSelected
                               ? 'bg-amber-500 text-slate-950 border-amber-300 font-bold shadow-md'
                               : 'bg-slate-950/70 text-slate-300 border-slate-800 hover:border-slate-600'
-                          }`}
+                            }`}
                         >
                           {isLeader && <Crown className="w-3 h-3 shrink-0 text-amber-400" />}
                           {hasLady && <Waves className="w-3 h-3 shrink-0 text-cyan-400" />}
@@ -1996,9 +1992,8 @@ export default function App() {
                 {/* 3D Flip Card Container */}
                 <div className="perspective-1000 w-full my-1">
                   <div
-                    className={`relative w-full min-h-[210px] rounded-xl transition-all duration-500 transform-style-3d ${
-                      holdingSecret ? 'rotate-y-180' : ''
-                    }`}
+                    className={`relative w-full min-h-[210px] rounded-xl transition-all duration-500 transform-style-3d ${holdingSecret ? 'rotate-y-180' : ''
+                      }`}
                   >
                     {/* FRONT OF CARD (Hidden state) */}
                     <div className="absolute inset-0 backface-hidden rounded-xl bg-gradient-to-br from-slate-800 via-slate-900 to-slate-950 border-2 border-amber-500/40 p-4 flex flex-col items-center justify-center text-center shadow-inner">
@@ -2015,11 +2010,9 @@ export default function App() {
 
                     {/* BACK OF CARD (Revealed Role & Zero-Sleep Intel) */}
                     <div
-                      className={`absolute inset-0 backface-hidden rotate-y-180 rounded-xl bg-gradient-to-br ${
-                        currentRoleInfo?.color || 'from-slate-800 to-slate-950'
-                      } border-2 ${
-                        currentRoleInfo?.border || 'border-amber-400'
-                      } p-3.5 flex flex-col justify-between overflow-y-auto`}
+                      className={`absolute inset-0 backface-hidden rotate-y-180 rounded-xl bg-gradient-to-br ${currentRoleInfo?.color || 'from-slate-800 to-slate-950'
+                        } border-2 ${currentRoleInfo?.border || 'border-amber-400'
+                        } p-3.5 flex flex-col justify-between overflow-y-auto`}
                     >
                       <div>
                         <div className="flex items-center justify-between gap-2 border-b border-white/15 pb-2">
@@ -2030,11 +2023,10 @@ export default function App() {
                                 {currentRoleInfo?.name}
                               </h3>
                               <span
-                                className={`inline-block text-[10px] font-extrabold px-2 py-0.5 rounded-full mt-0.5 ${
-                                  currentRoleInfo?.team === 'GOOD'
+                                className={`inline-block text-[10px] font-extrabold px-2 py-0.5 rounded-full mt-0.5 ${currentRoleInfo?.team === 'GOOD'
                                     ? 'bg-blue-500/30 text-blue-200 border border-blue-300/40'
                                     : 'bg-red-500/30 text-red-200 border border-red-300/40'
-                                }`}
+                                  }`}
                               >
                                 {currentRoleInfo?.team === 'GOOD' ? '🛡️ PHE THIỆN' : '🔥 PHE ÁC'}
                               </span>
@@ -2075,11 +2067,10 @@ export default function App() {
                   onMouseLeave={() => setHoldingSecret(false)}
                   onTouchStart={(e) => { e.preventDefault(); sfx.revealRole(); setHoldingSecret(true); }}
                   onTouchEnd={() => setHoldingSecret(false)}
-                  className={`mt-2 w-full py-3 rounded-xl font-extrabold text-xs sm:text-sm uppercase tracking-wider flex items-center justify-center gap-2 select-none transition-all ${
-                    holdingSecret
+                  className={`mt-2 w-full py-3 rounded-xl font-extrabold text-xs sm:text-sm uppercase tracking-wider flex items-center justify-center gap-2 select-none transition-all ${holdingSecret
                       ? 'bg-amber-400 text-slate-950 shadow-lg shadow-amber-500/30 scale-[0.99]'
                       : 'bg-gradient-to-r from-amber-600 to-yellow-600 hover:from-amber-500 hover:to-yellow-500 text-slate-950 shadow-md'
-                  }`}
+                    }`}
                 >
                   {holdingSecret ? (
                     <>
@@ -2099,7 +2090,7 @@ export default function App() {
             {/* Right column: Active Game Phase Action Board */}
             <div className="lg:col-span-7 flex flex-col">
               <div className="flex-1 bg-slate-900/90 border border-amber-500/30 rounded-2xl p-4 sm:p-5 shadow-xl flex flex-col justify-between">
-                
+
                 {/* ==========================================
                     PHASE 2: ROLE_REVEAL CONFIRMATION
                    ========================================== */}
@@ -2127,13 +2118,12 @@ export default function App() {
                                 setActiveViewerId(p.id);
                               }
                             }}
-                            className={`p-2.5 rounded-xl border flex items-center justify-between cursor-pointer transition ${
-                              p.readyRole
+                            className={`p-2.5 rounded-xl border flex items-center justify-between cursor-pointer transition ${p.readyRole
                                 ? 'bg-emerald-950/50 border-emerald-500/40 text-emerald-200'
                                 : p.id === currentPlayer?.id
-                                ? 'bg-amber-500/20 border-amber-400 text-white'
-                                : 'bg-slate-950/60 border-slate-800 text-slate-400'
-                            }`}
+                                  ? 'bg-amber-500/20 border-amber-400 text-white'
+                                  : 'bg-slate-950/60 border-slate-800 text-slate-400'
+                              }`}
                           >
                             <span className="text-xs font-bold truncate">{p.name}</span>
                             {p.readyRole ? (
@@ -2204,11 +2194,10 @@ export default function App() {
                             <button
                               key={p.id}
                               onClick={() => handleToggleTeamMember(p.id)}
-                              className={`p-2.5 rounded-xl border text-left transition-all flex items-center justify-between gap-2 ${
-                                isSelected
+                              className={`p-2.5 rounded-xl border text-left transition-all flex items-center justify-between gap-2 ${isSelected
                                   ? 'bg-gradient-to-r from-amber-500/30 to-yellow-600/20 border-amber-400 text-white shadow-md shadow-amber-500/10 scale-[1.02]'
                                   : 'bg-slate-950/70 border-slate-800 text-slate-300 hover:border-slate-600'
-                              }`}
+                                }`}
                             >
                               <div className="flex items-center gap-2 min-w-0">
                                 <PixelCharacterAvatar
@@ -2226,11 +2215,10 @@ export default function App() {
                                 </div>
                               </div>
                               <div
-                                className={`w-5 h-5 rounded-full shrink-0 flex items-center justify-center border ${
-                                  isSelected
+                                className={`w-5 h-5 rounded-full shrink-0 flex items-center justify-center border ${isSelected
                                     ? 'bg-amber-400 border-amber-300 text-slate-950'
                                     : 'border-slate-700 bg-slate-900'
-                                }`}
+                                  }`}
                               >
                                 {isSelected && <Check className="w-3.5 h-3.5 stroke-[3]" />}
                               </div>
@@ -2243,11 +2231,10 @@ export default function App() {
                     <button
                       disabled={gameState.selectedTeam.length !== requiredTeamSize}
                       onClick={handleSubmitTeamProposal}
-                      className={`w-full py-3.5 rounded-xl font-extrabold text-sm uppercase tracking-wider transition flex items-center justify-center gap-2 ${
-                        gameState.selectedTeam.length === requiredTeamSize
+                      className={`w-full py-3.5 rounded-xl font-extrabold text-sm uppercase tracking-wider transition flex items-center justify-center gap-2 ${gameState.selectedTeam.length === requiredTeamSize
                           ? 'bg-gradient-to-r from-amber-500 to-yellow-500 hover:from-amber-400 hover:to-yellow-400 text-slate-950 shadow-lg shadow-amber-500/25 cursor-pointer'
                           : 'bg-slate-800 text-slate-500 border border-slate-700 cursor-not-allowed'
-                      }`}
+                        }`}
                     >
                       <Sword className="w-4 h-4" />
                       <span>
@@ -2299,11 +2286,10 @@ export default function App() {
                         <div className="grid grid-cols-2 gap-3">
                           <button
                             onClick={() => handleCastTeamVote(currentPlayer.id, 'APPROVE')}
-                            className={`py-3 px-4 rounded-xl font-extrabold text-xs sm:text-sm flex items-center justify-center gap-2 border transition ${
-                              gameState.teamVotes[currentPlayer?.id] === 'APPROVE'
+                            className={`py-3 px-4 rounded-xl font-extrabold text-xs sm:text-sm flex items-center justify-center gap-2 border transition ${gameState.teamVotes[currentPlayer?.id] === 'APPROVE'
                                 ? 'bg-emerald-600 text-white border-emerald-300 shadow-lg'
                                 : 'bg-emerald-950/60 hover:bg-emerald-900/70 text-emerald-300 border-emerald-500/40'
-                            }`}
+                              }`}
                           >
                             <CheckCircle2 className="w-4 h-4" />
                             <span>TÁN THÀNH</span>
@@ -2311,11 +2297,10 @@ export default function App() {
 
                           <button
                             onClick={() => handleCastTeamVote(currentPlayer.id, 'REJECT')}
-                            className={`py-3 px-4 rounded-xl font-extrabold text-xs sm:text-sm flex items-center justify-center gap-2 border transition ${
-                              gameState.teamVotes[currentPlayer?.id] === 'REJECT'
+                            className={`py-3 px-4 rounded-xl font-extrabold text-xs sm:text-sm flex items-center justify-center gap-2 border transition ${gameState.teamVotes[currentPlayer?.id] === 'REJECT'
                                 ? 'bg-rose-600 text-white border-rose-300 shadow-lg'
                                 : 'bg-rose-950/60 hover:bg-rose-900/70 text-rose-300 border-rose-500/40'
-                            }`}
+                              }`}
                           >
                             <XCircle className="w-4 h-4" />
                             <span>PHẢN ĐỐI</span>
@@ -2331,11 +2316,10 @@ export default function App() {
                             <div
                               key={p.id}
                               onClick={() => mode === 'LOCAL' && setActiveViewerId(p.id)}
-                              className={`px-2.5 py-1.5 rounded-lg border text-xs flex items-center justify-between cursor-pointer ${
-                                hasVoted
+                              className={`px-2.5 py-1.5 rounded-lg border text-xs flex items-center justify-between cursor-pointer ${hasVoted
                                   ? 'bg-amber-500/15 border-amber-400/40 text-amber-200'
                                   : 'bg-slate-950 border-slate-800 text-slate-500'
-                              }`}
+                                }`}
                             >
                               <span className="truncate">{p.name}</span>
                               <span className="text-[10px] font-bold">
@@ -2376,11 +2360,10 @@ export default function App() {
                     <div className="flex flex-col justify-between h-full gap-4">
                       <div>
                         <div
-                          className={`p-4 rounded-xl border text-center mb-4 ${
-                            passed
+                          className={`p-4 rounded-xl border text-center mb-4 ${passed
                               ? 'bg-emerald-950/60 border-emerald-400 text-emerald-200'
                               : 'bg-rose-950/60 border-rose-500 text-rose-200'
-                          }`}
+                            }`}
                         >
                           <h3 className="text-lg font-black uppercase">
                             {passed ? '✅ Đội Hình Được Thông Qua!' : '❌ Đội Hình Bị Từ Chối!'}
@@ -2399,11 +2382,10 @@ export default function App() {
                             return (
                               <div
                                 key={p.id}
-                                className={`p-2.5 rounded-xl border flex items-center justify-between text-xs font-bold ${
-                                  v === 'APPROVE'
+                                className={`p-2.5 rounded-xl border flex items-center justify-between text-xs font-bold ${v === 'APPROVE'
                                     ? 'bg-emerald-950/40 border-emerald-500/40 text-emerald-300'
                                     : 'bg-rose-950/40 border-rose-500/40 text-rose-300'
-                                }`}
+                                  }`}
                               >
                                 <span className="truncate">{p.name}</span>
                                 <span className="px-1.5 py-0.5 rounded text-[10px] bg-black/30">
@@ -2459,13 +2441,12 @@ export default function App() {
                                     setPassScreenLocked(true);
                                   }
                                 }}
-                                className={`px-3 py-1.5 rounded-xl text-xs font-bold border flex items-center gap-1.5 transition ${
-                                  done
+                                className={`px-3 py-1.5 rounded-xl text-xs font-bold border flex items-center gap-1.5 transition ${done
                                     ? 'bg-emerald-950/60 border-emerald-500/40 text-emerald-300'
                                     : id === currentPlayer?.id
-                                    ? 'bg-amber-500 text-slate-950 border-amber-300 shadow-md'
-                                    : 'bg-slate-950 border-slate-700 text-slate-300'
-                                }`}
+                                      ? 'bg-amber-500 text-slate-950 border-amber-300 shadow-md'
+                                      : 'bg-slate-950 border-slate-700 text-slate-300'
+                                  }`}
                               >
                                 <span>{member?.name}</span>
                                 {done ? <Check className="w-3.5 h-3.5" /> : <span className="text-[10px]">(Chờ nộp)</span>}
@@ -2548,11 +2529,10 @@ export default function App() {
                                           handleCastQuestCard(currentPlayer.id, 'FAIL');
                                         }
                                       }}
-                                      className={`p-4 rounded-xl border-2 flex flex-col items-center justify-center gap-1.5 shadow-lg transition ${
-                                        isGoodPlayer
+                                      className={`p-4 rounded-xl border-2 flex flex-col items-center justify-center gap-1.5 shadow-lg transition ${isGoodPlayer
                                           ? 'bg-gradient-to-b from-slate-800 to-slate-900 border-slate-600 text-slate-300'
                                           : 'bg-gradient-to-b from-red-700 to-rose-950 hover:from-red-600 hover:to-rose-900 border-red-400 text-white'
-                                      }`}
+                                        }`}
                                     >
                                       <Flame className="w-7 h-7 text-red-400" />
                                       <span className="text-sm font-black uppercase">
@@ -2587,9 +2567,8 @@ export default function App() {
 
                   return (
                     <div
-                      className={`flex flex-col justify-between h-full gap-4 ${
-                        visibleFails > 0 ? 'animate-shake' : ''
-                      }`}
+                      className={`flex flex-col justify-between h-full gap-4 ${visibleFails > 0 ? 'animate-shake' : ''
+                        }`}
                     >
                       <div>
                         <div className="text-center mb-4">
@@ -2608,9 +2587,8 @@ export default function App() {
                             return (
                               <div key={idx} className="perspective-1000 h-32">
                                 <div
-                                  className={`relative w-full h-full rounded-xl transition-all duration-700 transform-style-3d ${
-                                    isFlipped ? 'rotate-y-180' : ''
-                                  }`}
+                                  className={`relative w-full h-full rounded-xl transition-all duration-700 transform-style-3d ${isFlipped ? 'rotate-y-180' : ''
+                                    }`}
                                 >
                                   {/* Unflipped Back */}
                                   <div className="absolute inset-0 backface-hidden rounded-xl bg-gradient-to-b from-amber-700/40 to-slate-950 border-2 border-amber-400/50 flex flex-col items-center justify-center p-2 shadow-lg">
@@ -2622,11 +2600,10 @@ export default function App() {
 
                                   {/* Flipped Result */}
                                   <div
-                                    className={`absolute inset-0 backface-hidden rotate-y-180 rounded-xl border-2 flex flex-col items-center justify-center p-2 shadow-xl ${
-                                      card === 'SUCCESS'
+                                    className={`absolute inset-0 backface-hidden rotate-y-180 rounded-xl border-2 flex flex-col items-center justify-center p-2 shadow-xl ${card === 'SUCCESS'
                                         ? 'bg-gradient-to-b from-blue-600 to-blue-950 border-blue-300 text-white'
                                         : 'bg-gradient-to-b from-red-600 to-rose-950 border-red-300 text-white'
-                                    }`}
+                                      }`}
                                   >
                                     {card === 'SUCCESS' ? (
                                       <>
@@ -2695,11 +2672,10 @@ export default function App() {
                                 key={p.id}
                                 disabled={hasHeldBefore}
                                 onClick={() => handleSelectLadyTarget(p.id)}
-                                className={`p-2.5 rounded-xl border text-left transition flex items-center gap-2 ${
-                                  hasHeldBefore
+                                className={`p-2.5 rounded-xl border text-left transition flex items-center gap-2 ${hasHeldBefore
                                     ? 'bg-slate-950/40 border-slate-800/60 opacity-45 cursor-not-allowed'
                                     : 'bg-slate-950/90 hover:bg-cyan-950/60 border-slate-700 hover:border-cyan-400 cursor-pointer'
-                                }`}
+                                  }`}
                               >
                                 <PixelCharacterAvatar skinId={p.skinId} frameId={p.frameId} size="sm" />
                                 <div className="min-w-0">
@@ -2751,11 +2727,10 @@ export default function App() {
                           </div>
                         ) : (
                           <div
-                            className={`p-6 rounded-2xl border-2 max-w-md mx-auto mt-2 shadow-2xl ${
-                              targetTeam === 'GOOD'
+                            className={`p-6 rounded-2xl border-2 max-w-md mx-auto mt-2 shadow-2xl ${targetTeam === 'GOOD'
                                 ? 'bg-gradient-to-b from-blue-700 to-indigo-950 border-cyan-300'
                                 : 'bg-gradient-to-b from-red-700 to-rose-950 border-red-400'
-                            }`}
+                              }`}
                           >
                             <PixelCharacterAvatar skinId={targetPlayer?.skinId} frameId={targetPlayer?.frameId} size="lg" />
                             <p className="text-xs uppercase font-bold text-amber-200 mt-2">
@@ -2839,11 +2814,10 @@ export default function App() {
                   <div className="flex flex-col justify-between h-full gap-4">
                     <div>
                       <div
-                        className={`p-4 rounded-2xl border-2 text-center mb-4 ${
-                          gameState.winner === 'GOOD'
+                        className={`p-4 rounded-2xl border-2 text-center mb-4 ${gameState.winner === 'GOOD'
                             ? 'bg-gradient-to-b from-blue-900/60 to-slate-950 border-blue-400 shadow-lg shadow-blue-500/20'
                             : 'bg-gradient-to-b from-red-900/60 to-slate-950 border-red-500 shadow-lg shadow-red-500/20'
-                        }`}
+                          }`}
                       >
                         <div className="text-3xl mb-1">
                           {gameState.winner === 'GOOD' ? '🛡️👑✨' : '🔥🗡️💀'}
@@ -2868,11 +2842,10 @@ export default function App() {
                           return (
                             <div
                               key={p.id}
-                              className={`p-2.5 rounded-xl border flex items-center justify-between ${
-                                rInfo?.team === 'GOOD'
+                              className={`p-2.5 rounded-xl border flex items-center justify-between ${rInfo?.team === 'GOOD'
                                   ? 'bg-blue-950/40 border-blue-500/30'
                                   : 'bg-red-950/40 border-red-500/30'
-                              }`}
+                                }`}
                             >
                               <div className="flex items-center gap-2">
                                 <span className="text-xl">{rInfo?.icon}</span>
@@ -2891,11 +2864,10 @@ export default function App() {
                                 </div>
                               </div>
                               <span
-                                className={`text-[10px] font-bold px-2 py-0.5 rounded-full ${
-                                  rInfo?.team === 'GOOD'
+                                className={`text-[10px] font-bold px-2 py-0.5 rounded-full ${rInfo?.team === 'GOOD'
                                     ? 'bg-blue-500/20 text-blue-300'
                                     : 'bg-red-500/20 text-red-300'
-                                }`}
+                                  }`}
                               >
                                 {rInfo?.team === 'GOOD' ? 'Thiện' : 'Ác'}
                               </span>
@@ -2940,22 +2912,20 @@ export default function App() {
                 <div className="grid grid-cols-2 gap-2 p-1 bg-slate-950 rounded-xl border border-slate-800 mb-4">
                   <button
                     onClick={() => { sfx.click(); setMode('LOCAL'); }}
-                    className={`py-2.5 px-3 rounded-lg text-xs font-extrabold transition flex items-center justify-center gap-1.5 ${
-                      mode === 'LOCAL'
+                    className={`py-2.5 px-3 rounded-lg text-xs font-extrabold transition flex items-center justify-center gap-1.5 ${mode === 'LOCAL'
                         ? 'bg-gradient-to-r from-amber-500 to-yellow-500 text-slate-950 shadow-md'
                         : 'text-slate-400 hover:text-white'
-                    }`}
+                      }`}
                   >
                     <Smartphone className="w-4 h-4" />
                     <span>Chơi Ngay 1 Máy / Quản Trò</span>
                   </button>
                   <button
                     onClick={() => { sfx.click(); setMode('ONLINE'); }}
-                    className={`py-2.5 px-3 rounded-lg text-xs font-extrabold transition flex items-center justify-center gap-1.5 ${
-                      mode === 'ONLINE'
+                    className={`py-2.5 px-3 rounded-lg text-xs font-extrabold transition flex items-center justify-center gap-1.5 ${mode === 'ONLINE'
                         ? 'bg-gradient-to-r from-indigo-500 to-blue-600 text-white shadow-md'
                         : 'text-slate-400 hover:text-white'
-                    }`}
+                      }`}
                   >
                     <Users className="w-4 h-4" />
                     <span>Nhiều Điện Thoại (Mã Phòng)</span>
@@ -3192,13 +3162,12 @@ export default function App() {
                       <div
                         key={key}
                         onClick={() => handleToggleSpecialRole(key)}
-                        className={`p-2.5 rounded-xl border flex items-center justify-between cursor-pointer transition ${
-                          active
+                        className={`p-2.5 rounded-xl border flex items-center justify-between cursor-pointer transition ${active
                             ? role.team === 'GOOD'
                               ? 'bg-blue-950/50 border-blue-400/50 text-white'
                               : 'bg-red-950/50 border-red-400/50 text-white'
                             : 'bg-slate-950/50 border-slate-800 text-slate-500'
-                        }`}
+                          }`}
                       >
                         <div className="flex items-center gap-2.5 pr-2">
                           <span className="text-xl">{role.icon}</span>
@@ -3206,11 +3175,10 @@ export default function App() {
                             <div className="flex items-center gap-1.5">
                               <span className="text-xs font-bold">{role.name}</span>
                               <span
-                                className={`text-[9px] font-bold px-1.5 py-0.5 rounded ${
-                                  role.team === 'GOOD'
+                                className={`text-[9px] font-bold px-1.5 py-0.5 rounded ${role.team === 'GOOD'
                                     ? 'bg-blue-500/20 text-blue-300'
                                     : 'bg-red-500/20 text-red-300'
-                                }`}
+                                  }`}
                               >
                                 {role.team === 'GOOD' ? 'Thiện' : 'Ác'}
                               </span>
@@ -3222,11 +3190,10 @@ export default function App() {
                         </div>
 
                         <div
-                          className={`w-5 h-5 rounded-md flex items-center justify-center border shrink-0 ${
-                            active
+                          className={`w-5 h-5 rounded-md flex items-center justify-center border shrink-0 ${active
                               ? 'bg-amber-400 border-amber-300 text-slate-950'
                               : 'border-slate-700 bg-slate-900'
-                          }`}
+                            }`}
                         >
                           {active && <Check className="w-3.5 h-3.5 stroke-[3]" />}
                         </div>
@@ -3244,11 +3211,10 @@ export default function App() {
                   <div className="space-y-2">
                     <div
                       onClick={() => handleToggleSpecialRole('ladyOfLake')}
-                      className={`p-2.5 rounded-xl border flex items-center justify-between cursor-pointer transition ${
-                        gameState.specialConfig.ladyOfLake
+                      className={`p-2.5 rounded-xl border flex items-center justify-between cursor-pointer transition ${gameState.specialConfig.ladyOfLake
                           ? 'bg-cyan-950/50 border-cyan-400/50 text-white'
                           : 'bg-slate-950/50 border-slate-800 text-slate-500'
-                      }`}
+                        }`}
                     >
                       <div className="pr-2">
                         <span className="text-xs font-bold block text-cyan-200">
@@ -3259,11 +3225,10 @@ export default function App() {
                         </span>
                       </div>
                       <div
-                        className={`w-5 h-5 rounded-md flex items-center justify-center border shrink-0 ${
-                          gameState.specialConfig.ladyOfLake
+                        className={`w-5 h-5 rounded-md flex items-center justify-center border shrink-0 ${gameState.specialConfig.ladyOfLake
                             ? 'bg-cyan-400 border-cyan-300 text-slate-950'
                             : 'border-slate-700 bg-slate-900'
-                        }`}
+                          }`}
                       >
                         {gameState.specialConfig.ladyOfLake && <Check className="w-3.5 h-3.5 stroke-[3]" />}
                       </div>
@@ -3271,11 +3236,10 @@ export default function App() {
 
                     <div
                       onClick={() => handleToggleSpecialRole('targeting')}
-                      className={`p-2.5 rounded-xl border flex items-center justify-between cursor-pointer transition ${
-                        gameState.specialConfig.targeting
+                      className={`p-2.5 rounded-xl border flex items-center justify-between cursor-pointer transition ${gameState.specialConfig.targeting
                           ? 'bg-amber-950/40 border-amber-400/50 text-white'
                           : 'bg-slate-950/50 border-slate-800 text-slate-500'
-                      }`}
+                        }`}
                     >
                       <div className="pr-2">
                         <span className="text-xs font-bold block text-amber-200">
@@ -3286,11 +3250,10 @@ export default function App() {
                         </span>
                       </div>
                       <div
-                        className={`w-5 h-5 rounded-md flex items-center justify-center border shrink-0 ${
-                          gameState.specialConfig.targeting
+                        className={`w-5 h-5 rounded-md flex items-center justify-center border shrink-0 ${gameState.specialConfig.targeting
                             ? 'bg-amber-400 border-amber-300 text-slate-950'
                             : 'border-slate-700 bg-slate-900'
-                        }`}
+                          }`}
                       >
                         {gameState.specialConfig.targeting && <Check className="w-3.5 h-3.5 stroke-[3]" />}
                       </div>
@@ -3333,11 +3296,10 @@ export default function App() {
                 <button
                   key={tab.id}
                   onClick={() => setRulesTab(tab.id)}
-                  className={`px-3 py-2 rounded-t-lg text-xs font-extrabold whitespace-nowrap transition ${
-                    rulesTab === tab.id
+                  className={`px-3 py-2 rounded-t-lg text-xs font-extrabold whitespace-nowrap transition ${rulesTab === tab.id
                       ? 'bg-amber-500 text-slate-950'
                       : 'bg-slate-950 text-slate-400 hover:text-white'
-                  }`}
+                    }`}
                 >
                   {tab.label}
                 </button>
@@ -3391,9 +3353,8 @@ export default function App() {
                         <span className="text-lg">{r.icon}</span>
                         <span className="font-bold text-white">{r.name}</span>
                         <span
-                          className={`text-[10px] font-bold px-2 py-0.5 rounded ${
-                            r.team === 'GOOD' ? 'bg-blue-500/20 text-blue-300' : 'bg-red-500/20 text-red-300'
-                          }`}
+                          className={`text-[10px] font-bold px-2 py-0.5 rounded ${r.team === 'GOOD' ? 'bg-blue-500/20 text-blue-300' : 'bg-red-500/20 text-red-300'
+                            }`}
                         >
                           {r.team === 'GOOD' ? 'Phe Thiện' : 'Phe Ác'}
                         </span>
@@ -3481,11 +3442,10 @@ export default function App() {
                       <button
                         key={skin.id}
                         onClick={() => handleUpdatePlayerSkin(targetP.id, { skinId: skin.id })}
-                        className={`p-2 rounded-xl border flex flex-col items-center gap-1 transition ${
-                          targetP.skinId === skin.id
+                        className={`p-2 rounded-xl border flex flex-col items-center gap-1 transition ${targetP.skinId === skin.id
                             ? 'bg-amber-500/20 border-amber-400 text-white'
                             : 'bg-slate-950 border-slate-800 text-slate-400 hover:border-slate-600'
-                        }`}
+                          }`}
                       >
                         <PixelCharacterAvatar skinId={skin.id} frameId={targetP.frameId} size="sm" />
                         <span className="text-[10px] font-bold text-center truncate w-full">{skin.name}</span>
@@ -3504,11 +3464,10 @@ export default function App() {
                       <button
                         key={frame.id}
                         onClick={() => handleUpdatePlayerSkin(targetP.id, { frameId: frame.id })}
-                        className={`p-2 rounded-xl border text-xs font-bold transition ${
-                          targetP.frameId === frame.id
+                        className={`p-2 rounded-xl border text-xs font-bold transition ${targetP.frameId === frame.id
                             ? 'bg-amber-500 text-slate-950 border-amber-300'
                             : 'bg-slate-950 text-slate-300 border-slate-800'
-                        }`}
+                          }`}
                       >
                         {frame.name}
                       </button>
@@ -3526,11 +3485,10 @@ export default function App() {
                       <button
                         key={title}
                         onClick={() => handleUpdatePlayerSkin(targetP.id, { titleBadge: title })}
-                        className={`px-2.5 py-1.5 rounded-lg text-xs font-bold border transition ${
-                          targetP.titleBadge === title
+                        className={`px-2.5 py-1.5 rounded-lg text-xs font-bold border transition ${targetP.titleBadge === title
                             ? 'bg-indigo-600 text-white border-indigo-400'
                             : 'bg-slate-950 text-slate-400 border-slate-800'
-                        }`}
+                          }`}
                       >
                         {title}
                       </button>
@@ -3650,9 +3608,8 @@ export default function App() {
                         Nhiệm vụ {log.questNum} • Đội trưởng: {log.leaderName}
                       </span>
                       <span
-                        className={`px-2 py-0.5 rounded font-bold text-[10px] ${
-                          log.approved ? 'bg-emerald-500/20 text-emerald-300' : 'bg-rose-500/20 text-rose-300'
-                        }`}
+                        className={`px-2 py-0.5 rounded font-bold text-[10px] ${log.approved ? 'bg-emerald-500/20 text-emerald-300' : 'bg-rose-500/20 text-rose-300'
+                          }`}
                       >
                         {log.approved ? 'Thông Qua' : 'Bị Từ Chối'}
                       </span>
